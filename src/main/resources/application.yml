@@ -1,8 +1,6 @@
 app:
   datasource:
-    jdbc-url: jdbc:mysql://localhost:3306/dbms_project
-    username: zero
-    password: password
+    jdbc-url: jdbc:mysql://us-cdbr-east-04.cleardb.com/heroku_ee88252e35609ee?password=3f9fad34&reconnect=true&user=b6d4cac6806acf
     pool-size: 30
 #app:
 #  datasource:
