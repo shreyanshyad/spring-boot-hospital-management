@@ -42,6 +42,7 @@ public class WebSecurityConfig
                 .antMatchers("/nurse/**").hasRole("NURSE")
                 .antMatchers("/doctor/**").hasRole("DOCTOR")
                 .antMatchers("/lab/**").hasRole("LAB")
+                .antMatchers("/dashboard").authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")

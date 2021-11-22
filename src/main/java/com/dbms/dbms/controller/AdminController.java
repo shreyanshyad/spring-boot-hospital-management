@@ -39,6 +39,12 @@ public class AdminController {
         return "redirect:create?success";
     }
 
+    @GetMapping("/toggleUser/{id}")
+    public String toggleUser(@PathVariable("id") int id) {
+        userService.toggleUserEnabled(id);
+        return "redirect:/admin/view_users";
+    }
+
     @GetMapping("/dashboard")
     public String getDashboard(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

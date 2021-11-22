@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -44,6 +46,12 @@ public class TreatmentDao {
         String sql = "select * from treatment_details where patient_id=?";
 
         return jdbcTemplate.query(sql, mapTreatmentToDb(), patientId);
+    }
+
+    public int endTreatment(int treatmentId) {
+        String sql = "update treatment set end_time=? where treatment_id=?";
+
+        return jdbcTemplate.update(sql, Timestamp.valueOf(LocalDateTime.now()), treatmentId);
     }
 
     public List<Treatment> getAllOngoingTreatmentsByPatient(int patientId) {

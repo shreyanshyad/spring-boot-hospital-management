@@ -105,4 +105,10 @@ public class DoctorController {
         model.addAttribute("treatments", treatmentService.getAllTreatmentsByDoctor(id));
         return "doctor/treatments";
     }
+
+    @GetMapping("/end_treatment/{tid}")
+    public String endTreatment(Model model, @PathVariable(value = "tid", required = true) String tid) {
+        treatmentService.endTreatment(Integer.parseInt(tid));
+        return "redirect:/doctor/dashboard";
+    }
 }

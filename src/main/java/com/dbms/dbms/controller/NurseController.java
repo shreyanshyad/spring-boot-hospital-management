@@ -23,11 +23,13 @@ public class NurseController {
     private final AdmissionService admissionService;
     private Bill bill;
     private final BillService billService;
+    private final RoomService roomService;
+    private Admission admission;
 
     @Autowired
     public NurseController(NurseService nurseService, UserService userService, StaffService staffService,
                            AppointmentService appointmentService, TreatmentService treatmentService,
-                           AdmissionService admissionService, BillService billService) {
+                           AdmissionService admissionService, BillService billService, RoomService roomService) {
         this.nurseService = nurseService;
         this.userService = userService;
         this.staffService = staffService;
@@ -35,6 +37,7 @@ public class NurseController {
         this.treatmentService = treatmentService;
         this.admissionService = admissionService;
         this.billService = billService;
+        this.roomService = roomService;
     }
 
     @GetMapping("/dashboard")
@@ -105,18 +108,32 @@ public class NurseController {
         return "nurse/filter_treatments";
     }
 
+    @GetMapping("/view_admissions/{tid}")
+    public String viewAdmissions(Model model, @PathVariable(value = "tid", required = true) String tid) {
+        model.addAttribute("admissions", admissionService.getAdmissions(Integer.parseInt(tid)));
+        model.addAttribute("admit", admissionService.isAdmitted(Integer.parseInt(tid)));
+        model.addAttribute("tid", tid);
+        return "nurse/view_admissions";
+    }
+
     @GetMapping("/admit/{tid}")
-    public String getAdmitPatient(Model model, @RequestParam(value = "tid", required = false, defaultValue = "-1") int tid) {
+    public String getAdmitPatient(Model model, @PathVariable(value = "tid", required = true) String tid) {
         Admission admission = new Admission();
-        if (tid != -1) admission.setTreatmentId(tid);
-        admission.setAdmissionTime(LocalDateTime.now());
+        admission.setTreatmentId(Integer.parseInt(tid));
         model.addAttribute("admission", admission);
         return "nurse/admission_form";
     }
 
     @PostMapping("/admit")
     public String postAdmission(@ModelAttribute("admission") Admission admission) {
+        admission.setAdmissionTime(LocalDateTime.now());
         admissionService.createAdmission(admission);
+        return "redirect:/nurse/dashboard";
+    }
+
+    @GetMapping("/discharge/{tid}")
+    public String dischargePatient(@PathVariable(value = "tid", required = true) String tid) {
+        admissionService.dischargePatient(Integer.parseInt(tid));
         return "redirect:/nurse/dashboard";
     }
 
@@ -166,5 +183,11 @@ public class NurseController {
     public String postPay(@RequestParam("id") int id, @RequestParam("amt") int amt) {
         billService.pay(id, amt);
         return "redirect:/nurse/dashboard";
+    }
+
+    @GetMapping("/rooms")
+    public String getRooms(Model model) {
+        model.addAttribute("rooms", roomService.getAllRooms());
+        return "nurse/view_rooms";
     }
 }

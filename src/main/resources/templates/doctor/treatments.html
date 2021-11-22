@@ -23,6 +23,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th scope="col">Patient Name</th>
             <th scope="col">Problem</th>
             <th scope="col">Treatment</th>
             <th scope="col">Start date</th>
@@ -32,10 +33,16 @@
         <tbody>
 
         <tr th:each="t: ${treatments}">
+            <td th:text="|${t.pFname} ${t.pLname}|"></td>
             <td th:text="|${t.problem}|"></td>
             <td th:text="|${t.treatment}|"></td>
             <td th:text="|${t.start}|"></td>
             <td th:text="|${t.end}|"></td>
+            <td th:if="${t.end==null}">
+                <a th:href="@{|/doctor/end_treatment/${t.id}/|}">
+                    <button type="button" class="btn btn-primary">End treatment</button>
+                </a>
+            </td>
         </tr>
         </tbody>
     </table>

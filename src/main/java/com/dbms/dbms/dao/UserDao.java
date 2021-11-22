@@ -59,6 +59,19 @@ public class UserDao {
         return jdbcTemplate.queryForObject(sql, mapUserFomDb(), email);
     }
 
+    public User findUserById(int id) {
+        String sql = "" +
+                "SELECT *" +
+                "FROM users WHERE id=?";
+
+        return jdbcTemplate.queryForObject(sql, mapUserFomDb(), id);
+    }
+
+    public int setUserEnabled(int id, Boolean value) {
+        String sql = "update users set enabled=? where id=?";
+        return jdbcTemplate.update(sql, value, id);
+    }
+
     public void deleteUser(int id) {
         String sql = "delete from users where id=?";
         jdbcTemplate.update(sql, id);

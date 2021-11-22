@@ -1,13 +1,19 @@
-app:
-  datasource:
-    jdbc-url: jdbc:mysql://us-cdbr-east-04.cleardb.com/heroku_ee88252e35609ee?password=3f9fad34&reconnect=true&user=b6d4cac6806acf
-    pool-size: 30
 #app:
 #  datasource:
-#    jdbc-url: mysql://us-cdbr-east-04.cleardb.com/heroku_723017dd7380a94?password=92c13d4d&reconnect=true&user=b34cb80062bd6c
-#    username: b34cb80062bd6c
-#    password: 92c13d4d
+#    jdbc-url: jdbc:mysql://us-cdbr-east-04.cleardb.com/heroku_ee88252e35609ee?password=3f9fad34&reconnect=true&user=b6d4cac6806acf
 #    pool-size: 30
+app:
+  datasource:
+    jdbc-url: jdbc:mysql://localhost:3306/dbms_project
+    username: zero
+    password: password
+    pool-size: 30
 logging:
   level:
     com.dbms.*: debug
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB

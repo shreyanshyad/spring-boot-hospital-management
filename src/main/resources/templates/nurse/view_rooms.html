@@ -24,28 +24,27 @@
         <thead>
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">Email</th>
-            <th scope="col">Role</th>
-            <th scope="col">Enabled</th>
+            <th scope="col">Ward Name</th>
+            <th scope="col">Room No</th>
+            <th scope="col">Equipment</th>
+            <th scope="col">Cost Per Day</th>
+            <th scope="col">Filled</th>
         </tr>
         </thead>
         <tbody>
 
-        <tr th:each="u: ${users}">
-            <td th:text="|${u.id}|"></td>
-            <td th:text="|${u.email}|"></td>
-            <td th:text="|${u.role}|"></td>
-            <td th:text="|${u.enabled}|"></td>
-            <td>
-                <a th:href="@{|/admin/delete/${u.id}/|}">
-                    <button type="button" class="btn btn-danger">Delete</button>
-                </a>
-            </td>
-            <td>
-                <a th:href="@{|/admin/toggleUser/${u.id}/|}">
-                    <button type="button" class="btn btn-warning">Toggle enabled</button>
-                </a>
-            </td>
+        <tr th:each="r: ${rooms}">
+            <td th:text="|${r.roomId}|"></td>
+            <td th:text="|${r.wardName}|"></td>
+            <td th:text="|${r.roomNo}|"></td>
+            <td th:text="|${r.equipment}|"></td>
+            <td th:text="|${r.costPerDay}|"></td>
+            <td th:text="|${r.filled}|"></td>
+            <!--            <td>-->
+            <!--                <a th:href="@{|/nurse/admit/${t.id}/|}">-->
+            <!--                    <button type="button" class="btn btn-primary">Admit</button>-->
+            <!--                </a>-->
+            <!--            </td>-->
         </tr>
         </tbody>
     </table>

@@ -14,7 +14,7 @@ create table doctor
     phone_no        VARCHAR(12),
     email           VARCHAR(320),
     id              int primary key,
-    foreign key (id) references users (id)
+    foreign key (id) references users (id) on delete cascade
 );
 
 # ROLE_PATIENT
@@ -32,7 +32,7 @@ create table patient
         ),
     id          int primary key,
     dob         date,
-    foreign key (id) references users (id)
+    foreign key (id) references users (id) on delete cascade
 );
 
 create table nurse
@@ -45,7 +45,7 @@ create table nurse
     email       VARCHAR(320),
     designation VARCHAR(40),
     id          int primary key,
-    foreign key (id) references users (id)
+    foreign key (id) references users (id) on delete cascade
 );
 
 create table admin
@@ -58,7 +58,7 @@ create table admin
     email       VARCHAR(320),
     designation VARCHAR(40),
     id          int primary key,
-    foreign key (id) references users (id)
+    foreign key (id) references users (id) on delete cascade
 );
 
 create table chemist
@@ -71,7 +71,7 @@ create table chemist
     email       VARCHAR(320),
     designation VARCHAR(40),
     id          int primary key,
-    foreign key (id) references users (id)
+    foreign key (id) references users (id) on delete cascade
 );
 
 create table lab_staff
@@ -84,7 +84,7 @@ create table lab_staff
     email       VARCHAR(320),
     designation VARCHAR(40),
     id          int primary key,
-    foreign key (id) references users (id)
+    foreign key (id) references users (id) on delete cascade
 );
 
 drop table if exists appointments;
@@ -96,10 +96,10 @@ create table appointments
     appointment_id int primary key not null auto_increment,
     patient_id     int,
     doctor_id      int,
-    time           timestamp,
+    time           timestamp       null,
     problem        varchar(200),
     confirmed      boolean,
-    foreign key (patient_id) references patient (id)
+    foreign key (patient_id) references patient (id) on delete cascade
 );
 
 create table treatment
@@ -111,7 +111,7 @@ create table treatment
     end_time     datetime,
     problem      VARCHAR(300),
     treatment    VARCHAR(300),
-    foreign key (patient_id) references patient (id)
+    foreign key (patient_id) references patient (id) on delete cascade
 );
 
 create table medicine
@@ -135,7 +135,8 @@ create table room
     room_id int primary key auto_increment not null,
     room_no int,
     ward_id int,
-    foreign key (ward_id) references ward (ward_id)
+    filled  boolean                        not null default false,
+    foreign key (ward_id) references ward (ward_id) on delete cascade
 );
 
 
@@ -143,21 +144,21 @@ create table prescription
 (
     prescription_id int primary key auto_increment not null,
     treatment_id    int,
-    foreign key (treatment_id) references treatment (treatment_id),
+    foreign key (treatment_id) references treatment (treatment_id) on delete cascade,
     medicine_id     int,
-    foreign key (medicine_id) references medicine (medicine_id),
+    foreign key (medicine_id) references medicine (medicine_id) on delete cascade,
     dosage          VARCHAR(300)
 );
 
 create table admission
 (
     admission_id   int primary key not null auto_increment,
-    admission_time timestamp,
-    discharge_time timestamp,
+    admission_time timestamp       null,
+    discharge_time timestamp       null,
     treatment_id   int,
-    foreign key (treatment_id) references treatment (treatment_id),
+    foreign key (treatment_id) references treatment (treatment_id) on delete cascade,
     room_id        int,
-    foreign key (room_id) references room (room_id)
+    foreign key (room_id) references room (room_id) on delete cascade
 );
 
 # lab test related tables
@@ -165,8 +166,8 @@ create table test
 (
     test_id     int primary key auto_increment not null,
     patient_id  int,
-    foreign key (patient_id) references patient (id),
-    time        timestamp,
+    foreign key (patient_id) references patient (id) on delete cascade,
+    time        timestamp                      null,
     name        VARCHAR(100),
     result      VARCHAR(300),
     report_file VARCHAR(100)
@@ -177,7 +178,7 @@ create table bill
 (
     bill_id     int primary key key auto_increment not null,
     patient_id  int,
-    foreign key (patient_id) references patient (id),
+    foreign key (patient_id) references patient (id) on delete cascade,
     amount      int,
     amount_paid int,
     time        datetime
@@ -187,7 +188,7 @@ create table bill_cost
 (
     bill_cost_id int auto_increment not null primary key,
     bill_id      int,
-    foreign key (bill_id) references bill (bill_id),
+    foreign key (bill_id) references bill (bill_id) on delete cascade,
     name         VARCHAR(100),
     quantity     int,
     cost         int
@@ -229,3 +230,9 @@ from admission a,
 where a.treatment_id = t.treatment_id
   and a.room_id = r.room_id
   and w.ward_id = r.ward_id;
+
+create view ward_details as
+select r.room_id, w.ward_name, w.equipment_available, w.cost_per_day, r.room_no, r.filled
+from ward w,
+     room r
+where r.ward_id = w.ward_id;

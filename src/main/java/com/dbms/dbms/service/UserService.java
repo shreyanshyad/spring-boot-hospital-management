@@ -35,6 +35,12 @@ public class UserService {
         userDao.createUser(user);
     }
 
+    public void toggleUserEnabled(int id) {
+        User user = userDao.findUserById(id);
+        boolean newStatus = !user.isEnabled();
+        userDao.setUserEnabled(user.getId(), newStatus);
+    }
+
     public boolean isProfileComplete(String email) {
         User user = userDao.findUserByEmail(email);
         return user.isInit();

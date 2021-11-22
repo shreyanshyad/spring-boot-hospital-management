@@ -23,32 +23,37 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Email</th>
-            <th scope="col">Role</th>
-            <th scope="col">Enabled</th>
+            <th scope="col">Admitted on</th>
+            <th scope="col">Discharge time</th>
+            <th scope="col">Room Id</th>
         </tr>
         </thead>
         <tbody>
 
-        <tr th:each="u: ${users}">
-            <td th:text="|${u.id}|"></td>
-            <td th:text="|${u.email}|"></td>
-            <td th:text="|${u.role}|"></td>
-            <td th:text="|${u.enabled}|"></td>
-            <td>
-                <a th:href="@{|/admin/delete/${u.id}/|}">
-                    <button type="button" class="btn btn-danger">Delete</button>
-                </a>
-            </td>
-            <td>
-                <a th:href="@{|/admin/toggleUser/${u.id}/|}">
-                    <button type="button" class="btn btn-warning">Toggle enabled</button>
-                </a>
-            </td>
+        <tr th:each="a: ${admissions}">
+            <td th:text="|${a.admissionTime}|"></td>
+            <td th:text="|${a.dischargeTime}|"></td>
+            <td th:text="|${a.roomId}|"></td>
+            <!--            <td th:text="|${a.confirmed}|"></td>-->
+            <!--            <td th:if="${a.canDelete()}">-->
+            <!--                <a th:href="@{|/patient/delete_appointment/${a.id}/|}">-->
+            <!--                    <button type="button" class="btn btn-danger">Cancel</button>-->
+            <!--                </a>-->
+            <!--            </td>-->
         </tr>
         </tbody>
     </table>
+
+    <div th:if="${admit}">
+        <a th:href="@{|/nurse/discharge/${tid}/|}">
+            <button type="button" class="btn btn-danger">Discharge</button>
+        </a>
+    </div>
+    <div th:if="${!admit}">
+        <a th:href="@{|/nurse/admit/${tid}/|}">
+            <button type="button" class="btn btn-danger">Admit</button>
+        </a>
+    </div>
 </main>
 
 <footer th:replace="fragments/footer"></footer>

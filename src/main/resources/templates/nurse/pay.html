@@ -22,12 +22,12 @@
 <main class="container flex-fill">
     <form th:action="@{|/nurse/pay|}" method="POST">
         <div class="form-group col-md-3">
-            <label for="inputEmail4">Patient No</label>
+            <label for="inputEmail4">Bill No</label>
             <input type="number" class="form-control" id="inputEmail4" placeholder="Bill No"
-                   name="amt" required autofocus="autofocus">
-            <label for="inputEmail5">Patient No</label>
-            <input type="number" class="form-control" id="inputEmail5" placeholder="Amount"
                    name="id" required autofocus="autofocus">
+            <label for="inputEmail5">Amount</label>
+            <input type="number" class="form-control" id="inputEmail5" placeholder="Amount"
+                   name="amt" required autofocus="autofocus">
         </div>
         <button type="submit" class="btn btn-primary mt-3">Update</button>
     </form>

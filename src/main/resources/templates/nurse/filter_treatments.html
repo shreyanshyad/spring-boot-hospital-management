@@ -23,6 +23,7 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th scope="col">Patient No</th>
             <th scope="col">Patient</th>
             <th scope="col">Doctor</th>
             <th scope="col">Problem</th>
@@ -34,6 +35,7 @@
         <tbody>
 
         <tr th:each="t: ${treatments}">
+            <td th:text="|${t.patientId}|"></td>
             <td th:text="|${t.pFname} ${t.pLname}|"></td>
             <td th:text="|${t.dFname} ${t.dLname}|"></td>
             <td th:text="|${t.problem}|"></td>
@@ -41,8 +43,8 @@
             <td th:text="|${t.start}|"></td>
             <td th:text="|${t.end}|"></td>
             <td>
-                <a th:href="@{|/nurse/admit/${t.id}/|}">
-                    <button type="button" class="btn btn-primary">Admit</button>
+                <a th:href="@{|/nurse/view_admissions/${t.id}/|}">
+                    <button type="button" class="btn btn-primary">View admissions</button>
                 </a>
             </td>
         </tr>

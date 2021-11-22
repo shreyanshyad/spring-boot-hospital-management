@@ -37,6 +37,10 @@ public class TreatmentService {
         return treatmentDao.getAllOngoingTreatmentsByPatient(patientId);
     }
 
+    public int endTreatment(int treatmentId) {
+        return treatmentDao.endTreatment(treatmentId);
+    }
+
     public List<Treatment> filterTreatments(String pFname, String pLname, String dFname, String dLname) {
         return treatmentDao.filteredTreatmentDetails(pFname, pLname, dFname, dLname);
     }

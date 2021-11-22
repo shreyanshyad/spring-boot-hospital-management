@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -22,8 +23,8 @@ public class LabDao {
     }
 
     public int createTest(Test test) {
-        String sql = "insert into test(patient_id, name, result, report_file) values (?,?,?,?)";
-        return jdbcTemplate.update(sql, test.getPatientId(), test.getName(), test.getResult(), test.getFileName());
+        String sql = "insert into test(patient_id, name, result, report_file,time) values (?,?,?,?,?)";
+        return jdbcTemplate.update(sql, test.getPatientId(), test.getName(), test.getResult(), test.getFileName(), Timestamp.valueOf(test.getTime()));
     }
 
     public List<Test> getReportsForPatient(int patientId) {
