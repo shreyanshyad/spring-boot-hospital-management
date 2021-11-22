@@ -15,6 +15,8 @@ import java.util.List;
 public class LabDao {
     private static final Logger logger = LoggerFactory.getLogger(LabDao.class);
 
+
+    //sd
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
